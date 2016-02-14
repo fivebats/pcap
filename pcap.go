@@ -365,7 +365,7 @@ func (p *Pcap) DumpOpen(ofile *string) (dumper *PcapDumper, err error) {
 	return
 }
 
-func (p *Pcap) DumpFopen(ofile *C.FILE) (dumper *PcapDumper, err error) {
+func (p *Pcap) DumpFopen(ofile unsafe.Pointer) (dumper *PcapDumper, err error) {
 	d := new(PcapDumper)
 	d.cptr = C.pcap_dump_fopen(p.cptr, ofile)
 	if nil == d.cptr {
