@@ -365,6 +365,16 @@ func (p *Pcap) DumpOpen(ofile *string) (dumper *PcapDumper, err error) {
 	return
 }
 
+func (p *Pcap) DumpFopen(ofile *C.FILE) (dumper *PcapDumper, err error) {
+	d := new(PcapDumper)
+	d.cptr = C.pcap_dump_fopen(p.cptr, ofile)
+	if nil == d.cptr {
+		return d, errors.New("Cannot open dumpfile")
+	}
+	dumper = d
+	return
+}
+
 func (p *Pcap) PcapLoop(pktnum int, dumper *PcapDumper) (result int32, err error) {
 	var pkthdr_ptr *C.struct_pcap_pkthdr
 	var buf_ptr *C.u_char
